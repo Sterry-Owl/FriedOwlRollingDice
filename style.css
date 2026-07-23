@@ -228,10 +228,10 @@ label {
     width: 60px;
     height: 60px;
     color: var(--morandi-rose);
+    /* 綁定動態變數，若 JS 未注入則使用後方的預設值 */
+    animation: dynamic-roll var(--roll-duration, 0.6s) cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
-.roll-anim-1 { animation: roll-bounce-1 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-.roll-anim-2 { animation: roll-bounce-2 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-.roll-anim-3 { animation: roll-bounce-3 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+
 .individual-result {
     font-size: 1.2rem;
     font-weight: 700;
@@ -240,25 +240,28 @@ label {
     transition: opacity 0.3s ease;
 }
 
-@keyframes roll-bounce-1 {
-    0% { transform: translateY(-80px) rotate(0deg) scale(0.5); opacity: 0; }
-    50% { transform: translateY(10px) rotate(360deg) scale(1.1); opacity: 1; }
-    75% { transform: translateY(-10px) rotate(540deg) scale(1.05); }
-    100% { transform: translateY(0) rotate(720deg) scale(1); opacity: 1; }
+@keyframes dynamic-roll {
+    0% { 
+        transform: translateY(var(--start-y, -80px)) rotate(0deg) scale(0.5); 
+        opacity: 0; 
+        filter: blur(0px);
+    }
+    50% { 
+        transform: translateY(var(--mid-y, 10px)) rotate(var(--rot-mid, 360deg)) scale(1.15); 
+        opacity: 1; 
+        /* 落下過程產生動態模糊 */
+        filter: blur(var(--blur-amt, 2px));
+    }
+    75% { 
+        transform: translateY(calc(var(--mid-y, 10px) - 20px)) rotate(calc(var(--rot-end, 720deg) * 0.75)) scale(1.05); 
+        filter: blur(0px);
+    }
+    100% { 
+        transform: translateY(0) rotate(var(--rot-end, 720deg)) scale(1); 
+        opacity: 1; 
+        filter: blur(0px);
+    }
 }
-@keyframes roll-bounce-2 {
-    0% { transform: translateY(-100px) rotate(0deg) scale(0.6); opacity: 0; }
-    50% { transform: translateY(5px) rotate(-360deg) scale(1.15); opacity: 1; }
-    75% { transform: translateY(-15px) rotate(-540deg) scale(1.02); }
-    100% { transform: translateY(0) rotate(-720deg) scale(1); opacity: 1; }
-}
-@keyframes roll-bounce-3 {
-    0% { transform: translateY(-70px) translateX(-15px) rotate(0deg) scale(0.4); opacity: 0; }
-    50% { transform: translateY(15px) translateX(8px) rotate(450deg) scale(1.1); opacity: 1; }
-    75% { transform: translateY(-5px) translateX(0) rotate(630deg) scale(1.08); }
-    100% { transform: translateY(0) translateX(0) rotate(720deg) scale(1); opacity: 1; }
-}
-
 /* 擲骰按鈕 (Morandi Blue 強調色) */
 #roll-button {
     width: 100%;
