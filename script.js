@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         rollButton: document.getElementById('roll-button'),
         animationContainer: document.getElementById('animation-container'),
-        rawResults: document.getElementById('raw-results'),
-        totalValue: document.getElementById('total-value'),
         finalResult: document.getElementById('final-result')
     };
 
@@ -91,28 +89,58 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeOption = uiElements.diceOptions[state.diceIndex];
         const sides = parseInt(activeOption.dataset.sides, 10);
 
-        uiElements.rawResults.textContent = '-';
-        uiElements.totalValue.textContent = '-';
+        // 重置結果文本與動畫區塊
         uiElements.finalResult.textContent = '-';
-        
-        const animatedSvg = activeOption.querySelector('svg').cloneNode(true);
-        animatedSvg.classList.add('animating-dice');
         uiElements.animationContainer.innerHTML = '';
-        uiElements.animationContainer.appendChild(animatedSvg);
+        
+        // 取得基礎的 SVG 模型
+        const baseSvg = activeOption.querySelector('svg');
+        
+        // 計算動畫顯示的骰子數量 (最多 5 顆)
+        const renderCount = Math.min(state.diceCount, 5);
+        const resultNodes = []; // 儲存個別數值節點以便稍後寫入
 
+        // 動態生成骰子與數值的 DOM 結構
+        for (let i = 0; i < renderCount; i++) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'dice-result-wrapper';
+            
+            const animatedSvg = baseSvg.cloneNode(true);
+            animatedSvg.classList.add('animating-dice');
+            // 加入些微的動畫延遲錯開時間，讓群組滾動更自然
+            animatedSvg.style.animationDelay = `${i * 0.05}s`;
+            
+            const resultText = document.createElement('span');
+            resultText.className = 'individual-result';
+            resultText.textContent = '-';
+            
+            wrapper.appendChild(animatedSvg);
+            wrapper.appendChild(resultText);
+            uiElements.animationContainer.appendChild(wrapper);
+            
+            resultNodes.push(resultText);
+        }
+
+        // 縮短延遲時間配合 CSS 動畫長度 (600ms + 最大延遲 200ms)
         setTimeout(() => {
             const results = [];
             for (let i = 0; i < state.diceCount; i++) {
                 results.push(Math.floor(Math.random() * sides) + 1);
             }
             
+            // 將前 5 顆的結果寫入畫面並加入淡入效果
+            for (let i = 0; i < renderCount; i++) {
+                resultNodes[i].textContent = results[i];
+                resultNodes[i].style.opacity = '1';
+            }
+            
             const total = results.reduce((sum, current) => sum + current, 0);
             const finalValue = total + state.modifier;
 
-            uiElements.rawResults.textContent = results.join(', ');
-            uiElements.totalValue.textContent = total;
+            // 更新最終結果介面
             uiElements.finalResult.textContent = finalValue;
 
+            // 解除鎖定狀態
             state.isRolling = false;
             uiElements.rollButton.style.opacity = '1';
             uiElements.rollButton.style.cursor = 'pointer';
