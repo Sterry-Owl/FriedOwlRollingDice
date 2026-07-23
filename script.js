@@ -175,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
             uiElements.rollButton.style.opacity = '1';
             uiElements.rollButton.style.cursor = 'pointer';
         }, 900);
+    };
 
     // 綁定箭頭按鈕事件
     uiElements.btnPrevDice.addEventListener('click', () => changeDice(-1));
