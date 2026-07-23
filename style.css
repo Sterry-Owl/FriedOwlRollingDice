@@ -59,10 +59,10 @@ main {
 
 /* --- 標題區塊 --- */
 header {
+    grid-column: 1 / -1; /* 強制橫跨所有網格欄位 (從第一條線到最後一條線) */
     text-align: center;
     margin-bottom: 40px;
 }
-
 header h1 {
     font-size: 2.5rem;
     color: var(--morandi-taupe);
@@ -74,7 +74,7 @@ header h1 {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    margin-bottom: 40px;
+    /* 移除 margin-bottom，雙欄佈局下底部不再需要推擠空間 */
 }
 
 .form-group {
@@ -89,10 +89,10 @@ label {
     font-weight: bold;
 }
 
-/* 骰子選擇網格 */
 #dice-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    /* 將 minmax 最小值從 100px 調整為 90px，確保在半寬畫面下依然能容納適當數量的按鈕 */
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     gap: 15px;
 }
 
@@ -190,10 +190,7 @@ input:focus {
     transform: translateY(1px);
 }
 
-/* --- 結果顯示區塊 --- */
 #result-section {
-    margin-top: auto;
-    /* 將結果推到底部 */
     display: flex;
     flex-direction: column;
     gap: 20px;
