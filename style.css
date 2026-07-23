@@ -43,16 +43,18 @@ main {
     border: 1px solid var(--border-color);
     border-radius: 16px;
     width: 100%;
-    /* 設定 4:5 的畫面比例 (1000px*1250px) */
-    max-width: 1000px;
-    aspect-ratio: 4 / 5;
-    /* 確保在較小螢幕上也不會變形，並在寬螢幕上置中 */
-    display: flex;
-    flex-direction: column;
+    /* 設定橫向長方形的尺寸限制 */
+    max-width: 1200px;
+    min-height: 600px;
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     overflow: auto;
-    /* 內容過多時產生捲軸 */
+    
+    /* 導入 CSS Grid 達成頂部標題與左右雙欄佈局 */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 將空間均分為左右兩欄 */
+    grid-template-rows: auto 1fr;   /* 第一列高度隨標題自適應，第二列填滿剩餘空間 */
+    gap: 0 25px;                    /* 上下交由內部元素控制間距，左右兩欄間隔 40px */
 }
 
 /* --- 標題區塊 --- */
