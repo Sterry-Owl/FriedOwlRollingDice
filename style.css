@@ -207,17 +207,34 @@ label {
 #animation-container {
     display: flex;
     justify-content: center;
+    align-items: flex-end; /* 讓骰子群組底部對齊 */
+    flex-wrap: wrap;       /* 數量過多時允許換行 */
+    gap: 15px;
+    min-height: 150px;     /* 增加高度以容納下方文字 */
+    margin-bottom: 20px;
+}
+
+/* 單一骰子與其對應數值的包覆容器 */
+.dice-result-wrapper {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    min-height: 120px;
-    margin-bottom: 10px;
+    gap: 10px;
 }
 
 .animating-dice {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     color: var(--morandi-rose);
-    /* 套用滾動與彈跳動畫 */
-    animation: roll-bounce 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    /* 縮短動畫時間，讓多顆骰子體驗更流暢 */
+    animation: roll-bounce 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+.individual-result {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--morandi-green);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 @keyframes roll-bounce {
@@ -226,11 +243,11 @@ label {
         opacity: 0;
     }
     50% {
-        transform: translateY(10px) rotate(360deg) scale(1.2);
+        transform: translateY(10px) rotate(360deg) scale(1.1);
         opacity: 1;
     }
     75% {
-        transform: translateY(-15px) rotate(540deg) scale(1.1);
+        transform: translateY(-10px) rotate(540deg) scale(1.05);
     }
     100% {
         transform: translateY(0) rotate(720deg) scale(1);
@@ -264,6 +281,7 @@ label {
     transform: translateY(1px);
 }
 
+/* --- 結果顯示區塊 (精簡版) --- */
 #result-section {
     display: flex;
     flex-direction: column;
@@ -275,35 +293,20 @@ label {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 25px;
+    text-align: center;
 }
 
 .result-group h2 {
     font-size: 1.5rem;
-    margin-bottom: 15px;
     color: var(--morandi-rose);
-}
-
-.result-group p {
-    font-size: 1.1rem;
     margin-bottom: 10px;
 }
 
-/* 強調顯示結果數值 */
-#raw-results,
-#total-value {
-    color: var(--morandi-green);
-    font-weight: bold;
-}
-
+/* 最終結算大數值顯示 */
 #final-result {
     color: var(--morandi-blue);
     font-weight: bold;
-}
-
-/* 結果的大數值顯示 */
-#final-result {
-    font-size: 3rem;
+    font-size: 4rem;
     display: block;
-    text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
