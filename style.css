@@ -122,14 +122,26 @@ label {
 }
 
 .dice-icon {
-    /* 這裡可以放置骰子圖示 (SVG 或 Font Awesome)，
-       或者您可以填入單純的樣式 placeholder */
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     margin-bottom: 8px;
-    background-color: var(--border-color);
-    /* placeholder */
-    border-radius: 5px;
+    color: var(--morandi-taupe); /* SVG 的 stroke="currentColor" 會繼承此顏色 */
+    transition: color 0.3s ease;
+}
+
+/* 當按鈕被選中或懸停時，變更 3D 模型的線條顏色 */
+.dice-option:hover .dice-icon {
+    color: var(--text-color);
+}
+
+.dice-option.active .dice-icon {
+    color: var(--morandi-rose);
+}
+
+/* 微調按鈕內文字大小 */
+.dice-option span {
+    font-size: 0.9rem;
+    font-weight: bold;
 }
 
 /* 數字輸入框與公式輸入框 */
