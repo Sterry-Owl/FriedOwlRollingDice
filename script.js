@@ -101,13 +101,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const resultNodes = []; // 儲存個別數值節點以便稍後寫入
 
         // 動態生成骰子與數值的 DOM 結構
+        const animationClasses = ['roll-anim-1', 'roll-anim-2', 'roll-anim-3'];
         for (let i = 0; i < renderCount; i++) {
             const wrapper = document.createElement('div');
             wrapper.className = 'dice-result-wrapper';
             
             const animatedSvg = baseSvg.cloneNode(true);
             animatedSvg.classList.add('animating-dice');
-            // 加入些微的動畫延遲錯開時間，讓群組滾動更自然
+            const randomAnim = animationClasses[Math.floor(Math.random() * animationClasses.length)];
+            animatedSvg.classList.add(randomAnim);
             animatedSvg.style.animationDelay = `${i * 0.05}s`;
             
             const resultText = document.createElement('span');
