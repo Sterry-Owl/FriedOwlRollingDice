@@ -89,79 +89,153 @@ label {
     font-weight: bold;
 }
 
-#dice-grid {
-    display: grid;
-    /* 將 minmax 最小值從 100px 調整為 90px，確保在半寬畫面下依然能容納適當數量的按鈕 */
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-    gap: 15px;
-}
-
-.dice-option {
+.carousel-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background-color: #2a333e;
     border: 2px solid var(--border-color);
-    color: var(--text-color);
-    padding: 15px;
     border-radius: 12px;
+    padding: 10px;
+}
+
+.carousel-nav {
+    background: none;
+    border: none;
+    color: var(--morandi-taupe);
+    font-size: 1.5rem;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.carousel-nav:hover {
+    color: var(--morandi-rose);
+}
+
+.carousel-viewport {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    /* 設定固定高度避免切換時跳動 */
+    height: 90px; 
+}
+
+#dice-track {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 骰子項目基礎設定，寬度固定為視窗的三分之一 */
+.dice-option {
+    flex: 0 0 33.333%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: all 0.3s ease;
-    /* 這裡可以放置圖示樣式 */
+    justify-content: center;
+    color: var(--text-color);
+    opacity: 0.3;
+    transform: scale(0.7);
+    transition: all 0.4s ease;
 }
 
-.dice-option:hover {
-    background-color: #313b48;
-}
-
-/* 當前選中的骰子樣式 (Morandi Rose 強調) */
+/* 啟動狀態：放大、清晰並強調色彩 */
 .dice-option.active {
-    border-color: var(--morandi-rose);
-    box-shadow: 0 0 15px rgba(214, 176, 175, 0.4);
-    transform: translateY(-3px);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.dice-option.active .dice-icon {
+    color: var(--morandi-rose);
+    filter: drop-shadow(0 0 8px rgba(214, 176, 175, 0.4));
 }
 
 .dice-icon {
     width: 45px;
     height: 45px;
-    margin-bottom: 8px;
-    color: var(--morandi-taupe); /* SVG 的 stroke="currentColor" 會繼承此顏色 */
+    margin-bottom: 5px;
+    color: var(--morandi-taupe);
     transition: color 0.3s ease;
 }
 
-/* 當按鈕被選中或懸停時，變更 3D 模型的線條顏色 */
-.dice-option:hover .dice-icon {
-    color: var(--text-color);
-}
-
-.dice-option.active .dice-icon {
-    color: var(--morandi-rose);
-}
-
-/* 微調按鈕內文字大小 */
 .dice-option span {
     font-size: 0.9rem;
     font-weight: bold;
 }
 
-/* 數字輸入框與公式輸入框 */
-input[type="number"],
-input[type="text"] {
-    width: 100%;
-    padding: 15px;
-    border-radius: 12px;
+/* --- 加減計數器樣式 --- */
+.stepper-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: #2a333e;
     border: 2px solid var(--border-color);
-    color: var(--text-color);
-    font-size: 1rem;
-    transition: border-color 0.3s;
+    border-radius: 12px;
+    padding: 5px 15px;
 }
 
-input:focus {
-    outline: none;
-    border-color: var(--morandi-blue);
+.step-btn {
+    background: none;
+    border: none;
+    color: var(--morandi-taupe);
+    font-size: 1.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;
+}
+
+.step-btn:hover {
+    color: var(--morandi-rose);
+}
+
+.step-display {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color);
+    width: 60px;
+    text-align: center;
+}
+
+/* --- 動畫顯示區塊與 Keyframes --- */
+#animation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px;
+    margin-bottom: 10px;
+}
+
+.animating-dice {
+    width: 80px;
+    height: 80px;
+    color: var(--morandi-rose);
+    /* 套用滾動與彈跳動畫 */
+    animation: roll-bounce 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes roll-bounce {
+    0% {
+        transform: translateY(-80px) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(10px) rotate(360deg) scale(1.2);
+        opacity: 1;
+    }
+    75% {
+        transform: translateY(-15px) rotate(540deg) scale(1.1);
+    }
+    100% {
+        transform: translateY(0) rotate(720deg) scale(1);
+        opacity: 1;
+    }
 }
 
 /* 擲骰按鈕 (Morandi Blue 強調色) */
