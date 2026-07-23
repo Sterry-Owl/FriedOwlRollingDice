@@ -101,16 +101,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const resultNodes = []; // 儲存個別數值節點以便稍後寫入
 
         // 動態生成骰子與數值的 DOM 結構
-        const animationClasses = ['roll-anim-1', 'roll-anim-2', 'roll-anim-3'];
         for (let i = 0; i < renderCount; i++) {
             const wrapper = document.createElement('div');
             wrapper.className = 'dice-result-wrapper';
             
             const animatedSvg = baseSvg.cloneNode(true);
             animatedSvg.classList.add('animating-dice');
-            const randomAnim = animationClasses[Math.floor(Math.random() * animationClasses.length)];
-            animatedSvg.classList.add(randomAnim);
-            animatedSvg.style.animationDelay = `${i * 0.05}s`;
+            
+            // 隨機生成動畫參數，達成無限多樣的物理視覺效果
+            const duration = (0.5 + Math.random() * 0.3).toFixed(2);       // 0.5s ~ 0.8s
+            const startY = -70 - Math.random() * 50;                       // -70px ~ -120px
+            const midY = 5 + Math.random() * 15;                           // 5px ~ 20px
+            const turns = (1 + Math.random() * 2) * (Math.random() < 0.5 ? 1 : -1); // 隨機正反向，1~3圈
+            const rotEnd = Math.floor(turns * 360);
+            const rotMid = Math.floor(rotEnd / 2);
+            const blurAmt = (1 + Math.random() * 3).toFixed(1);            // 1px ~ 4px 的動態模糊
+            
+            // 透過 CSS 變數即時注入動畫屬性
+            animatedSvg.style.setProperty('--roll-duration', `${duration}s`);
+            animatedSvg.style.setProperty('--start-y', `${startY}px`);
+            animatedSvg.style.setProperty('--mid-y', `${midY}px`);
+            animatedSvg.style.setProperty('--rot-mid', `${rotMid}deg`);
+            animatedSvg.style.setProperty('--rot-end', `${rotEnd}deg`);
+            animatedSvg.style.setProperty('--blur-amt', `${blurAmt}px`);
+            animatedSvg.style.animationDelay = `${i * 0.08}s`; // 錯開每顆骰子的起始時間
             
             const resultText = document.createElement('span');
             resultText.className = 'individual-result';
@@ -130,24 +144,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 results.push(Math.floor(Math.random() * sides) + 1);
             }
             
-            // 將前 5 顆的結果寫入畫面並加入淡入效果
+            // 將前 5 顆的結果寫入畫面，並加入 D100 特殊判定
             for (let i = 0; i < renderCount; i++) {
-                resultNodes[i].textContent = results[i];
+                let displayStr = results[i].toString();
+                
+                if (sides === 100) {
+                    if (results[i] <= 5) displayStr += ' (大成功)';
+                    else if (results[i] >= 96) displayStr += ' (大失敗)';
+                }
+                
+                resultNodes[i].textContent = displayStr;
                 resultNodes[i].style.opacity = '1';
             }
             
             const total = results.reduce((sum, current) => sum + current, 0);
             const finalValue = total + state.modifier;
+            let finalDisplayStr = finalValue.toString();
+
+            // 若僅投擲單顆 100 面骰，將大成功/大失敗同步顯示於最終結果
+            if (state.diceCount === 1 && sides === 100) {
+                if (results[0] <= 5) finalDisplayStr += ' (大成功)';
+                else if (results[0] >= 96) finalDisplayStr += ' (大失敗)';
+            }
 
             // 更新最終結果介面
-            uiElements.finalResult.textContent = finalValue;
+            uiElements.finalResult.textContent = finalDisplayStr;
 
             // 解除鎖定狀態
             state.isRolling = false;
             uiElements.rollButton.style.opacity = '1';
             uiElements.rollButton.style.cursor = 'pointer';
-        }, 800);
-    };
+        }, 900);
 
     // 綁定箭頭按鈕事件
     uiElements.btnPrevDice.addEventListener('click', () => changeDice(-1));
