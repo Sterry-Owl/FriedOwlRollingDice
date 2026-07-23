@@ -21,14 +21,60 @@
             <div class="form-group">
                 <label>骰子種類：</label>
                 <div id="dice-grid">
-                    <!-- 使用 data-sides 屬性儲存數值，避免在 JS 中硬編碼對應關係 -->
-                    <button class="dice-option" data-sides="4">D4</button>
-                    <button class="dice-option active" data-sides="6">D6</button>
-                    <button class="dice-option" data-sides="8">D8</button>
-                    <button class="dice-option" data-sides="10">D10</button>
-                    <button class="dice-option" data-sides="12">D12</button>
-                    <button class="dice-option" data-sides="20">D20</button>
-                    <button class="dice-option" data-sides="100">D100</button>
+                    <button class="dice-option" data-sides="4">
+                        <svg class="dice-icon" viewBox="0 0 100 100">
+                            <polygon points="50,15 90,85 10,85" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+                            <path d="M50 15 L50 65 L10 85 M50 65 L90 85" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+                        </svg>
+                        <span>D4</span>
+                    </button>
+                    <button class="dice-option active" data-sides="6">
+                        <svg class="dice-icon" viewBox="0 0 100 100">
+                            <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+                            <polyline points="50,50 50,90" fill="none" stroke="currentColor" stroke-width="5"/>
+                            <polyline points="50,50 10,30" fill="none" stroke="currentColor" stroke-width="5"/>
+                            <polyline points="50,50 90,30" fill="none" stroke="currentColor" stroke-width="5"/>
+                        </svg>
+                        <span>D6</span>
+                    </button>
+                    <button class="dice-option" data-sides="8">
+                        <svg class="dice-icon" viewBox="0 0 100 100">
+                            <polygon points="50,10 85,50 50,90 15,50" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+                            <path d="M15 50 L85 50 M50 10 L30 50 L50 90 M50 10 L70 50 L50 90" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+                        </svg>
+                        <span>D8</span>
+                    </button>
+                    <button class="dice-option" data-sides="10">
+                        <svg class="dice-icon" viewBox="0 0 100 100">
+                            <polygon points="50,10 90,40 50,90 10,40" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+                            <path d="M10 40 L50 55 L90 40 M50 55 L50 90 M50 10 L30 45 L50 55 M50 10 L70 45 L50 55" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+                        </svg>
+                        <span>D10</span>
+                    </button>
+                    <button class="dice-option" data-sides="12">
+                        <svg class="dice-icon" viewBox="0 0 100 100">
+                            <polygon points="50,10 85,35 70,85 30,85 15,35" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <path d="M50 25 L70 45 L60 70 L40 70 L30 45 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <path d="M50 10 L50 25 M85 35 L70 45 M70 85 L60 70 M30 85 L40 70 M15 35 L30 45" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                        </svg>
+                        <span>D12</span>
+                    </button>
+                    <button class="dice-option" data-sides="20">
+                        <svg class="dice-icon" viewBox="0 0 100 100">
+                            <polygon points="50,10 90,30 90,75 50,95 10,75 10,30" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <polygon points="50,25 75,65 25,65" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                            <path d="M50 10 L50 25 M90 30 L75 65 L90 75 M10 30 L25 65 L10 75 M50 95 L75 65 M50 95 L25 65 M10 30 L50 25 L90 30" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+                        </svg>
+                        <span>D20</span>
+                    </button>
+                    <button class="dice-option" data-sides="100">
+                        <svg class="dice-icon" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="4"/>
+                            <ellipse cx="50" cy="50" rx="20" ry="40" fill="none" stroke="currentColor" stroke-width="4"/>
+                            <ellipse cx="50" cy="50" rx="40" ry="15" fill="none" stroke="currentColor" stroke-width="4"/>
+                        </svg>
+                        <span>D100</span>
+                    </button>
                 </div>
             </div>
 
