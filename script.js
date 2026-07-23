@@ -27,15 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const calculateFormula = (total, formula) => {
-        if (!formula.trim()) {
+        if (!formula || !formula.trim()) {
             return total;
         }
 
         try {
             const parsedFormula = formula.toLowerCase()
-                .replace(/[^0-9x\+\-\*\/\(\)\.]/g, '')
-                .replace(/(\d)x/g, '$1*x')
-                .replace(/x/g, total);
+                .replace(/[^0-9x\+\-\*\/\(\)\.]/g, '') 
+                .replace(/(\d)x/g, '$1*x')           
+                .replace(/x/g, total);               
 
             if (!parsedFormula) {
                 return total;
@@ -49,20 +49,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return result;
         } catch (error) {
-            return '公式錯誤，請檢查輸入格式';
+            return '公式錯誤或不支援此運算';
         }
     };
 
-    const handleRoll = () => {
-        const activeDice = document.querySelector('.dice-option.active');
-        if (!activeDice) return;
+    const handleRoll = (event) => {
 
+        if (event) {
+            event.preventDefault();
+        }
+
+        const activeDice = document.querySelector('.dice-option.active');
+        if (!activeDice) {
+            uiElements.finalResult.textContent = '系統錯誤：無法讀取骰子種類，請重新整理網頁';
+            return;
+        }
+        
         const sides = parseInt(activeDice.dataset.sides, 10);
         const count = parseInt(uiElements.diceCount.value, 10);
-        const formula = uiElements.formulaInput.value;
+        const formula = uiElements.formulaInput.value || '';
 
         if (isNaN(count) || count < 1) {
             uiElements.finalResult.textContent = '請輸入大於 0 的有效擲骰數量';
+            return;
+        }
+
+        if (isNaN(sides)) {
+            uiElements.finalResult.textContent = '系統錯誤：無效的面數參數';
             return;
         }
 
