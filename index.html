@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帝王棉花骰子</title>
+    <!-- 引入外部樣式表，隔離視覺設計 -->
+    <link rel="stylesheet" href="style.css">
+    <!-- 引入外部 JavaScript 檔案，並使用 defer 確保在 HTML 解析完成後執行，隔離互動邏輯 -->
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>帝王棉花骰子</h1>
+        </header>
+
+        <section id="input-section">
+            <div class="form-group">
+                <label>骰子種類：</label>
+                <div id="dice-grid">
+                    <!-- 使用 data-sides 屬性儲存數值，避免在 JS 中硬編碼對應關係 -->
+                    <button class="dice-option" data-sides="4">D4</button>
+                    <button class="dice-option active" data-sides="6">D6</button>
+                    <button class="dice-option" data-sides="8">D8</button>
+                    <button class="dice-option" data-sides="10">D10</button>
+                    <button class="dice-option" data-sides="12">D12</button>
+                    <button class="dice-option" data-sides="20">D20</button>
+                    <button class="dice-option" data-sides="100">D100</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dice-count">擲骰數量：</label>
+                <!-- 設定 min="1" 避免無效的零或負數輸入 -->
+                <input type="number" id="dice-count" min="1" value="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="formula-input">結算公式 (總值以 x 表示)：</label>
+                <input type="text" id="formula-input" placeholder="例如：(2*x+6)*5">
+            </div>
+
+            <button id="roll-button">擲骰與結算</button>
+        </section>
+
+        <section id="result-section">
+            <div class="result-group">
+                <h2>擲骰結果</h2>
+                <p>各骰數值：<span id="raw-results">-</span></p>
+                <p>擲骰總值 (x)：<span id="total-value">-</span></p>
+            </div>
+            <div class="result-group">
+                <h2>最終結算值</h2>
+                <p id="final-result">-</p>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,224 @@
+:root {
+    /* 背景與基礎文字顏色 */
+    --bg-color: #181e24;
+    --text-color: #f7f4f0;
+
+    /* 莫蘭迪色系 (Morandi Palette) */
+    --morandi-blue: #a3b8c8;
+    /* 莫蘭迪藍 - 用於強調/結果 */
+    --morandi-rose: #d6b0af;
+    /* 莫蘭迪玫瑰色 - 用於按鈕/選取 */
+    --morandi-green: #bbcbb6;
+    /* 莫蘭迪綠 - 用於次要強調 */
+    --morandi-taupe: #c9c1b3;
+    /* 莫蘭迪灰褐色 */
+
+    /* 其他輔助顏色 */
+    --card-bg: #212830;
+    /* 內容區塊背景 */
+    --border-color: #333c46;
+    /* 邊框顏色 */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'PingFang TC', 'MicroSoft JhengHei', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- 整體介面框線 (4:5 畫面比例限制) --- */
+main {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    width: 100%;
+    /* 設定 4:5 的畫面比例 (1000px*1250px) */
+    max-width: 1000px;
+    aspect-ratio: 4 / 5;
+    /* 確保在較小螢幕上也不會變形，並在寬螢幕上置中 */
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    /* 內容過多時產生捲軸 */
+}
+
+/* --- 標題區塊 --- */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--morandi-taupe);
+    letter-spacing: 2px;
+}
+
+/* --- 輸入區塊 --- */
+#input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-size: 1.1rem;
+    color: var(--morandi-taupe);
+    font-weight: bold;
+}
+
+/* 骰子選擇網格 */
+#dice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.dice-option {
+    background-color: #2a333e;
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+    /* 這裡可以放置圖示樣式 */
+}
+
+.dice-option:hover {
+    background-color: #313b48;
+}
+
+/* 當前選中的骰子樣式 (Morandi Rose 強調) */
+.dice-option.active {
+    border-color: var(--morandi-rose);
+    box-shadow: 0 0 15px rgba(214, 176, 175, 0.4);
+    transform: translateY(-3px);
+}
+
+.dice-icon {
+    /* 這裡可以放置骰子圖示 (SVG 或 Font Awesome)，
+       或者您可以填入單純的樣式 placeholder */
+    width: 50px;
+    height: 50px;
+    margin-bottom: 8px;
+    background-color: var(--border-color);
+    /* placeholder */
+    border-radius: 5px;
+}
+
+/* 數字輸入框與公式輸入框 */
+input[type="number"],
+input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #2a333e;
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--morandi-blue);
+}
+
+/* 擲骰按鈕 (Morandi Blue 強調色) */
+#roll-button {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--morandi-rose) 0%, var(--morandi-taupe) 100%);
+    color: var(--bg-color);
+    /* 為了在粉色上清晰 */
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 15px;
+}
+
+#roll-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+#roll-button:active {
+    transform: translateY(1px);
+}
+
+/* --- 結果顯示區塊 --- */
+#result-section {
+    margin-top: auto;
+    /* 將結果推到底部 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.result-group {
+    background-color: #2a333e;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.result-group h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--morandi-rose);
+}
+
+.result-group p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+/* 強調顯示結果數值 */
+#raw-results,
+#total-value {
+    color: var(--morandi-green);
+    font-weight: bold;
+}
+
+#final-result {
+    color: var(--morandi-blue);
+    font-weight: bold;
+}
+
+/* 結果的大數值顯示 */
+#final-result {
+    font-size: 3rem;
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
